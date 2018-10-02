@@ -1,9 +1,9 @@
 let testProm = new MyPromise(function(resolve, reject) {
     return resolve('test');
-}).then('aa');
-/*.then(function(result) {
+}).then(function(result) {
     console.log(result)
-});*/
+    return result;
+});
 
 function MyPromise(init) {
     let store = null;
@@ -11,10 +11,6 @@ function MyPromise(init) {
     //console.log(call());
     init(resolve, reject);
 
-    /*function init(resolve, reject) {
-        console.log('initialize');
-        resolve();
-    }*/
     this.then = function(onResolve, onReject) {
         console.log('then');
         store = 'dfgdfgdfgdg';

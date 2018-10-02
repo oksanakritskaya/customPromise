@@ -1,29 +1,51 @@
-var Callbacks = function() {
-    return {
-        resolve_c: 'resolve_c',
-        reject_c: 'reject_c'
-    }
-};
+let testProm = new MyPromise(function(resolve, reject) {
+    return resolve('test');
+}).then('aa');
+/*.then(function(result) {
+    console.log(result)
+});*/
 
-let testProm = new MyPromise(callback);
+function MyPromise(init) {
+    let store = null;
+    console.log('MyPromise');
+    //console.log(call());
+    init(resolve, reject);
 
-function MyPromise(callback) {
-    callback(resolve, reject);
-    this.then = function() {
+    /*function init(resolve, reject) {
+        console.log('initialize');
+        resolve();
+    }*/
+    this.then = function(onResolve, onReject) {
+        console.log('then');
+        store = 'dfgdfgdfgdg';
+        onResolve();
         return new MyPromise(callback);
     };
 
-    this.catch = function() {
-
-    };
-
-    function resolve(result) {
-        resolve_c[type]
+    function resolve(value) {
+        console.log('resolve');
+        setTimeout(function() {
+            onResolve(value);
+        });
     }
 
-    function reject() {
+    function reject(value) {
+        console.log('reject');
+        setTimeout(function() {
+            onReject(value);
+        });
+    }
+
+
+    function onResolve(value) {
+        store = value;
+        console.log('onResolve');
+        console.log(value);
+        return value;
+    }
+
+    function onReject(value) {
+        console.log('onReject');
         throw new Error("error");
     }
 }
-
-console.log(testProm);

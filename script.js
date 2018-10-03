@@ -1,21 +1,20 @@
-let testProm = new MyPromise(function(resolve, reject) {
-    return resolve('test');
-}).then(function(result) {
-    console.log(result)
-    return result;
-});
-
 function MyPromise(init) {
-    let store = null;
+    let store;
     console.log('MyPromise');
     //console.log(call());
     init(resolve, reject);
 
     this.then = function(onResolve, onReject) {
-        console.log('then');
-        store = 'dfgdfgdfgdg';
-        onResolve();
-        return new MyPromise(callback);
+        setTimeout(function() {
+            console.log('then atart');
+            return new MyPromise(function(resolve, reject) {
+                console.log('--return new promise--');
+                console.log(store);
+                console.log('----------------------');
+                console.log('then finish');
+                return resolve(store);
+            });
+        });
     };
 
     function resolve(value) {
@@ -32,16 +31,28 @@ function MyPromise(init) {
         });
     }
 
-
     function onResolve(value) {
+        console.log('---onResolve---');
         store = value;
-        console.log('onResolve');
         console.log(value);
+        console.log(store);
+        console.log('---------------');
         return value;
     }
 
     function onReject(value) {
+        store = value;
         console.log('onReject');
-        throw new Error("error");
+        throw new Error(value);
     }
 }
+
+let testProm = new MyPromise(function(resolve, reject) {
+    resolve('test');
+}).then(function(result) {
+    console.log('-----then-----');
+    console.log(result);
+    console.log('--------------');
+    console.log('--------------');
+    return result;
+});
